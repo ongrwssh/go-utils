@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/fs"
 	"os"
+	"path/filepath"
 )
 
 var (
@@ -55,5 +56,14 @@ func MoveFile(srcPath, dstPath string) error {
 		return fmt.Errorf("failed to remove src file: %w", err)
 	}
 
+	return nil
+}
+
+func MoveFileToDir(srcPath, dstDirPath string) error {
+	name := filepath.Base(srcPath)
+	dstPath := filepath.Join(dstDirPath, name)
+	if err := MoveFile(srcPath, dstPath); err != nil {
+		return err
+	}
 	return nil
 }
